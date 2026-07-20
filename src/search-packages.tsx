@@ -1,30 +1,30 @@
 import {
-    AI,
-    Action,
-    ActionPanel,
-    Clipboard,
-    Color,
-    Detail,
-    Icon,
-    List,
-    Toast,
-    environment,
-    getPreferenceValues,
-    openExtensionPreferences,
-    popToRoot,
-    showToast,
+  AI,
+  Action,
+  ActionPanel,
+  Clipboard,
+  Color,
+  Detail,
+  Icon,
+  List,
+  Toast,
+  environment,
+  getPreferenceValues,
+  openExtensionPreferences,
+  popToRoot,
+  showToast,
 } from "@raycast/api";
 import fetch from "node-fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
-    EcosystemId,
-    getChangelogUrl,
-    getPackageUrl,
-    installPackage,
-    isEcosystemAvailable,
-    listInstalledPackages,
-    run,
+  EcosystemId,
+  getChangelogUrl,
+  getPackageUrl,
+  installPackage,
+  isEcosystemAvailable,
+  listInstalledPackages,
+  run,
 } from "./ecosystems";
 
 const ECOSYSTEM_NAMES: Record<EcosystemId, string> = {
