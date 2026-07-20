@@ -1,11 +1,11 @@
 import {
-    Action,
-    ActionPanel,
-    Detail,
-    Grid,
-    Icon,
-    showToast,
-    Toast,
+  Action,
+  ActionPanel,
+  Detail,
+  Grid,
+  Icon,
+  showToast,
+  Toast,
 } from "@raycast/api";
 import { useCallback, useEffect, useState } from "react";
 
@@ -144,7 +144,8 @@ const MANAGERS: ManagerInfo[] = [
     id: "java" as EcosystemId,
     name: "Azul Zulu JDK",
     website: "https://www.azul.com/downloads/",
-    description: "OpenJDK builds by Azul Systems, highly popular for enterprise Java.",
+    description:
+      "OpenJDK builds by Azul Systems, highly popular for enterprise Java.",
     installCommand: "brew install --cask zulu",
     emoji: "☕",
   },
@@ -298,7 +299,7 @@ export default function Command() {
     >
       <Grid.Section
         title={`Installed Managers (${installed.length}/${managers.length})`}
-          subtitle="Installed and ready to use"
+        subtitle="Installed and ready to use"
       >
         {installed.length === 0 ? (
           <Grid.Item

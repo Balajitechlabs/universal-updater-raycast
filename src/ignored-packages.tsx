@@ -1,12 +1,12 @@
 import {
-    Action,
-    ActionPanel,
-    Color,
-    Icon,
-    List,
-    Toast,
-    confirmAlert,
-    showToast,
+  Action,
+  ActionPanel,
+  Color,
+  Icon,
+  List,
+  Toast,
+  confirmAlert,
+  showToast,
 } from "@raycast/api";
 import { useCallback, useEffect, useState } from "react";
 import { getIgnoredPackages, removeIgnoredPackage } from "./ecosystems";

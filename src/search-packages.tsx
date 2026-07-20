@@ -1,30 +1,30 @@
 import {
-    AI,
-    Action,
-    ActionPanel,
-    Clipboard,
-    Color,
-    Detail,
-    Icon,
-    List,
-    Toast,
-    environment,
-    getPreferenceValues,
-    openExtensionPreferences,
-    popToRoot,
-    showToast,
+  AI,
+  Action,
+  ActionPanel,
+  Clipboard,
+  Color,
+  Detail,
+  Icon,
+  List,
+  Toast,
+  environment,
+  getPreferenceValues,
+  openExtensionPreferences,
+  popToRoot,
+  showToast,
 } from "@raycast/api";
 import fetch from "node-fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
-    EcosystemId,
-    getChangelogUrl,
-    getPackageUrl,
-    installPackage,
-    isEcosystemAvailable,
-    listInstalledPackages,
-    run
+  EcosystemId,
+  getChangelogUrl,
+  getPackageUrl,
+  installPackage,
+  isEcosystemAvailable,
+  listInstalledPackages,
+  run,
 } from "./ecosystems";
 
 const ECOSYSTEM_NAMES: Record<EcosystemId, string> = {
@@ -278,7 +278,9 @@ export default function Command() {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [aiRecommendation, setAiRecommendation] = useState<string>("");
-  const [installedPackages, setInstalledPackages] = useState<Map<string, string>>(new Map());
+  const [installedPackages, setInstalledPackages] = useState<
+    Map<string, string>
+  >(new Map());
 
   // Use a ref to hold the current abort controller so we can cancel stale requests
   const abortRef = useRef<AbortController | null>(null);
@@ -619,7 +621,9 @@ export default function Command() {
             subtitle={pkg.description}
             accessories={(() => {
               const accs: List.Item.Accessory[] = [];
-              const installedVersion = installedPackages.get(pkg.name.toLowerCase());
+              const installedVersion = installedPackages.get(
+                pkg.name.toLowerCase(),
+              );
 
               if (installedVersion) {
                 if (pkg.version && pkg.version !== installedVersion) {
@@ -633,7 +637,9 @@ export default function Command() {
                 } else {
                   accs.push({
                     tag: {
-                      value: pkg.version ? `Installed: v${installedVersion}` : "Installed",
+                      value: pkg.version
+                        ? `Installed: v${installedVersion}`
+                        : "Installed",
                       color: Color.Green,
                     },
                     icon: Icon.Check,

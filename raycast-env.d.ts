@@ -60,33 +60,33 @@ type ExtensionPreferences = {
   "compactMode": boolean,
   /** undefined - Display when the last update check was performed */
   "showLastCheckTime": boolean,
-  /** Advanced Settings - Fallback colon-separated PATH directories if auto-detection fails. Find current path using: echo $PATH */
+  /** Global PATH Override - Fallback colon-separated PATH directories if auto-detection fails. Find current path using: echo $PATH */
   "customPath": string,
-  /** undefined - Manual binary directory path for Homebrew. Find it using: dirname $(which brew) */
+  /** Homebrew PATH Override - Manual binary directory path for Homebrew. Find it using: dirname $(which brew) */
   "customPathBrew": string,
-  /** undefined - Manual binary directory path for npm. Find it using: dirname $(which npm) */
+  /** npm PATH Override - Manual binary directory path for npm. Find it using: dirname $(which npm) */
   "customPathNpm": string,
-  /** undefined - Manual binary directory path for Yarn. Find it using: dirname $(which yarn) */
+  /** Yarn PATH Override - Manual binary directory path for Yarn. Find it using: dirname $(which yarn) */
   "customPathYarn": string,
-  /** undefined - Manual binary directory path for pnpm. Find it using: dirname $(which pnpm) */
+  /** pnpm PATH Override - Manual binary directory path for pnpm. Find it using: dirname $(which pnpm) */
   "customPathPnpm": string,
-  /** undefined - Manual binary directory path for pip/pip3. Find it using: dirname $(which pip) || dirname $(which pip3) */
+  /** pip PATH Override - Manual binary directory path for pip/pip3. Find it using: dirname $(which pip) || dirname $(which pip3) */
   "customPathPip": string,
-  /** undefined - Manual binary directory path for pipx. Find it using: dirname $(which pipx) */
+  /** pipx PATH Override - Manual binary directory path for pipx. Find it using: dirname $(which pipx) */
   "customPathPipx": string,
-  /** undefined - Manual binary directory path for Cargo. Find it using: dirname $(which cargo) */
+  /** Cargo PATH Override - Manual binary directory path for Cargo. Find it using: dirname $(which cargo) */
   "customPathCargo": string,
-  /** undefined - Manual binary directory path for gem. Find it using: dirname $(which gem) */
+  /** Gem PATH Override - Manual binary directory path for gem. Find it using: dirname $(which gem) */
   "customPathGem": string,
-  /** undefined - Manual binary directory path for Go. Find it using: dirname $(which go) */
+  /** Go PATH Override - Manual binary directory path for Go. Find it using: dirname $(which go) */
   "customPathGo": string,
-  /** undefined - Manual binary directory path for Bun. Find it using: dirname $(which bun) */
+  /** Bun PATH Override - Manual binary directory path for Bun. Find it using: dirname $(which bun) */
   "customPathBun": string,
-  /** undefined - Manual binary directory path for Deno. Find it using: dirname $(which deno) */
+  /** Deno PATH Override - Manual binary directory path for Deno. Find it using: dirname $(which deno) */
   "customPathDeno": string,
-  /** undefined - Manual binary directory path for Composer. Find it using: dirname $(which composer) */
+  /** Composer PATH Override - Manual binary directory path for Composer. Find it using: dirname $(which composer) */
   "customPathComposer": string,
-  /** undefined - Manual binary directory path for mas CLI. Find it using: dirname $(which mas) */
+  /** Mas PATH Override - Manual binary directory path for mas CLI. Find it using: dirname $(which mas) */
   "customPathMas": string
 }
 

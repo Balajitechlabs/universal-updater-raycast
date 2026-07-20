@@ -62,7 +62,7 @@
     },
     {
       "name": "free-up-space",
-      "title": "Free Up Space",
+      "title": "Free up Space",
       "subtitle": "Universal Updater",
       "description": "Run cleanup commands for all enabled package managers to reclaim disk space.",
       "icon": "extension-icon.png",
@@ -347,8 +347,7 @@
     },
     {
       "name": "customPath",
-      "title": "Advanced Settings",
-      "label": "Global PATH override",
+      "title": "Global PATH Override",
       "description": "Fallback colon-separated PATH directories if auto-detection fails. Find current path using: echo $PATH",
       "type": "textfield",
       "default": "",
@@ -356,7 +355,7 @@
     },
     {
       "name": "customPathBrew",
-      "label": "Homebrew PATH override",
+      "title": "Homebrew PATH Override",
       "description": "Manual binary directory path for Homebrew. Find it using: dirname $(which brew)",
       "type": "textfield",
       "default": "",
@@ -364,7 +363,7 @@
     },
     {
       "name": "customPathNpm",
-      "label": "npm PATH override",
+      "title": "npm PATH Override",
       "description": "Manual binary directory path for npm. Find it using: dirname $(which npm)",
       "type": "textfield",
       "default": "",
@@ -372,7 +371,7 @@
     },
     {
       "name": "customPathYarn",
-      "label": "Yarn PATH override",
+      "title": "Yarn PATH Override",
       "description": "Manual binary directory path for Yarn. Find it using: dirname $(which yarn)",
       "type": "textfield",
       "default": "",
@@ -380,7 +379,7 @@
     },
     {
       "name": "customPathPnpm",
-      "label": "pnpm PATH override",
+      "title": "pnpm PATH Override",
       "description": "Manual binary directory path for pnpm. Find it using: dirname $(which pnpm)",
       "type": "textfield",
       "default": "",
@@ -388,7 +387,7 @@
     },
     {
       "name": "customPathPip",
-      "label": "pip PATH override",
+      "title": "pip PATH Override",
       "description": "Manual binary directory path for pip/pip3. Find it using: dirname $(which pip) || dirname $(which pip3)",
       "type": "textfield",
       "default": "",
@@ -396,7 +395,7 @@
     },
     {
       "name": "customPathPipx",
-      "label": "pipx PATH override",
+      "title": "pipx PATH Override",
       "description": "Manual binary directory path for pipx. Find it using: dirname $(which pipx)",
       "type": "textfield",
       "default": "",
@@ -404,7 +403,7 @@
     },
     {
       "name": "customPathCargo",
-      "label": "Cargo PATH override",
+      "title": "Cargo PATH Override",
       "description": "Manual binary directory path for Cargo. Find it using: dirname $(which cargo)",
       "type": "textfield",
       "default": "",
@@ -412,7 +411,7 @@
     },
     {
       "name": "customPathGem",
-      "label": "Gem PATH override",
+      "title": "Gem PATH Override",
       "description": "Manual binary directory path for gem. Find it using: dirname $(which gem)",
       "type": "textfield",
       "default": "",
@@ -420,7 +419,7 @@
     },
     {
       "name": "customPathGo",
-      "label": "Go PATH Override",
+      "title": "Go PATH Override",
       "description": "Manual binary directory path for Go. Find it using: dirname $(which go)",
       "type": "textfield",
       "default": "",
@@ -428,7 +427,7 @@
     },
     {
       "name": "customPathBun",
-      "label": "Bun PATH Override",
+      "title": "Bun PATH Override",
       "description": "Manual binary directory path for Bun. Find it using: dirname $(which bun)",
       "type": "textfield",
       "default": "",
@@ -436,7 +435,7 @@
     },
     {
       "name": "customPathDeno",
-      "label": "Deno PATH Override",
+      "title": "Deno PATH Override",
       "description": "Manual binary directory path for Deno. Find it using: dirname $(which deno)",
       "type": "textfield",
       "default": "",
@@ -444,7 +443,7 @@
     },
     {
       "name": "customPathComposer",
-      "label": "Composer PATH Override",
+      "title": "Composer PATH Override",
       "description": "Manual binary directory path for Composer. Find it using: dirname $(which composer)",
       "type": "textfield",
       "default": "",
@@ -452,7 +451,7 @@
     },
     {
       "name": "customPathMas",
-      "label": "Mas PATH Override",
+      "title": "Mas PATH Override",
       "description": "Manual binary directory path for mas CLI. Find it using: dirname $(which mas)",
       "type": "textfield",
       "default": "",

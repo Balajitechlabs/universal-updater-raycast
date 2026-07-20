@@ -160,8 +160,12 @@ async function getFnmPath(): Promise<string> {
   return "";
 }
 
-async function findBinary(bin: string, ecosystem?: EcosystemId): Promise<string | null> {
-  if (resolvedPaths[bin] && existsSync(resolvedPaths[bin])) return resolvedPaths[bin];
+async function findBinary(
+  bin: string,
+  ecosystem?: EcosystemId,
+): Promise<string | null> {
+  if (resolvedPaths[bin] && existsSync(resolvedPaths[bin]))
+    return resolvedPaths[bin];
 
   // 1. Check current process/resolved PATH first
   let customPath = "";
@@ -182,7 +186,7 @@ async function findBinary(bin: string, ecosystem?: EcosystemId): Promise<string 
 
   const shellPath = await getShellPath();
   const fnmPath = await getFnmPath();
-  
+
   let searchPath = SHELL_ENV.PATH;
   if (fnmPath) {
     searchPath = `${fnmPath}:${searchPath}`;
@@ -240,7 +244,10 @@ async function findBinary(bin: string, ecosystem?: EcosystemId): Promise<string 
   return null;
 }
 
-export async function run(cmd: string, ecosystem?: EcosystemId): Promise<string> {
+export async function run(
+  cmd: string,
+  ecosystem?: EcosystemId,
+): Promise<string> {
   const trimmedCmd = cmd.trim();
   const parts = trimmedCmd.split(/\s+/);
   const bin = parts[0] || "";
@@ -263,7 +270,7 @@ export async function run(cmd: string, ecosystem?: EcosystemId): Promise<string>
 
   const shellPath = await getShellPath();
   const fnmPath = await getFnmPath();
-  
+
   let activePath = SHELL_ENV.PATH;
   if (fnmPath) {
     activePath = `${fnmPath}:${activePath}`;
@@ -888,7 +895,10 @@ export async function checkGo(): Promise<OutdatedPackage[]> {
       try {
         const binPath = `${binDir}/${file}`;
         const versionRaw = await withTimeout(
-          run(`go version -m ${quoteShellArg(binPath)} 2>/dev/null || true`, "go"),
+          run(
+            `go version -m ${quoteShellArg(binPath)} 2>/dev/null || true`,
+            "go",
+          ),
           GO_VERSION_TIMEOUT_MS,
           `go version -m ${file}`,
         );
@@ -944,7 +954,10 @@ export async function upgradeGo(): Promise<string> {
   const outdated = await checkGo();
   if (outdated.length === 0) return "All Go tools are up to date.";
   const updates = outdated.map((pkg) => `${pkg.name}@latest`).join(" ");
-  return run(`go install ${updates.split(" ").map(quoteShellArg).join(" ")}`, "go");
+  return run(
+    `go install ${updates.split(" ").map(quoteShellArg).join(" ")}`,
+    "go",
+  );
 }
 
 // ─── bun (global) ─────────────────────────────────────────────────────────────
@@ -1076,7 +1089,10 @@ export async function listInstalledPackages(
         "brew list --formula --versions 2>/dev/null",
         "brew",
       );
-      const caskRaw = await run("brew list --cask --versions 2>/dev/null", "brew");
+      const caskRaw = await run(
+        "brew list --cask --versions 2>/dev/null",
+        "brew",
+      );
       const lines = (formulaRaw + "\n" + caskRaw).split("\n").filter(Boolean);
       return lines.map((line) => {
         const parts = line.trim().split(/\s+/);
@@ -1253,7 +1269,10 @@ export async function listInstalledPackages(
     }
     case "composer": {
       try {
-        const raw = await run("composer global show --format=json 2>/dev/null", "composer");
+        const raw = await run(
+          "composer global show --format=json 2>/dev/null",
+          "composer",
+        );
         const json = JSON.parse(raw);
         return (json.installed || []).map((p: any) => ({
           name: p.name,
@@ -1402,7 +1421,8 @@ export async function checkJavaJDKs(): Promise<JavaJDK[]> {
     const raw = await run("/usr/libexec/java_home -V 2>&1 || true");
     const jdks: JavaJDK[] = [];
     const lines = raw.split("\n");
-    const regex = /^\s*([^\s(]+)\s*\(([^)]+)\)\s*"([^"]+)"\s*-\s*"([^"]+)"\s+(.+)$/;
+    const regex =
+      /^\s*([^\s(]+)\s*\(([^)]+)\)\s*"([^"]+)"\s*-\s*"([^"]+)"\s+(.+)$/;
     for (const line of lines) {
       const match = regex.exec(line);
       if (match) {
@@ -1431,7 +1451,7 @@ export interface LocalProject {
 export async function checkLocalProjects(): Promise<LocalProject[]> {
   const projects: LocalProject[] = [];
   const cwd = process.cwd();
-  
+
   // 1. Node.js check
   if (existsSync(join(cwd, "package.json"))) {
     try {
@@ -1440,12 +1460,14 @@ export async function checkLocalProjects(): Promise<LocalProject[]> {
         const json = JSON.parse(raw);
         const name = json.name ?? "Current Project";
         const deps = json.dependencies ?? {};
-        const packages: OutdatedPackage[] = Object.entries(deps).map(([pkgName, info]: [string, any]) => ({
-          name: pkgName,
-          current: info.version ?? "?",
-          latest: "?",
-          website: getPackageUrl("npm", pkgName),
-        }));
+        const packages: OutdatedPackage[] = Object.entries(deps).map(
+          ([pkgName, info]: [string, any]) => ({
+            name: pkgName,
+            current: info.version ?? "?",
+            latest: "?",
+            website: getPackageUrl("npm", pkgName),
+          }),
+        );
         projects.push({
           name,
           path: cwd,
@@ -1463,22 +1485,27 @@ export async function checkLocalProjects(): Promise<LocalProject[]> {
           ...(pkgJson.dependencies ?? {}),
           ...(pkgJson.devDependencies ?? {}),
         };
-        const packages: OutdatedPackage[] = Object.entries(allDeps).map(([pkgName, ver]: [string, any]) => {
-          let installedVer = ver;
-          try {
-            const nodeModulePkg = readFileSync(join(cwd, "node_modules", pkgName, "package.json"), "utf8");
-            const nodeModuleJson = JSON.parse(nodeModulePkg);
-            installedVer = nodeModuleJson.version ?? ver;
-          } catch {
-            // ignore
-          }
-          return {
-            name: pkgName,
-            current: String(installedVer),
-            latest: "?",
-            website: getPackageUrl("npm", pkgName),
-          };
-        });
+        const packages: OutdatedPackage[] = Object.entries(allDeps).map(
+          ([pkgName, ver]: [string, any]) => {
+            let installedVer = ver;
+            try {
+              const nodeModulePkg = readFileSync(
+                join(cwd, "node_modules", pkgName, "package.json"),
+                "utf8",
+              );
+              const nodeModuleJson = JSON.parse(nodeModulePkg);
+              installedVer = nodeModuleJson.version ?? ver;
+            } catch {
+              // ignore
+            }
+            return {
+              name: pkgName,
+              current: String(installedVer),
+              latest: "?",
+              website: getPackageUrl("npm", pkgName),
+            };
+          },
+        );
         projects.push({
           name,
           path: cwd,
@@ -1497,17 +1524,20 @@ export async function checkLocalProjects(): Promise<LocalProject[]> {
       const cargoContent = readFileSync(join(cwd, "Cargo.toml"), "utf8");
       const nameMatch = /^name\s*=\s*"([^"]+)"/m.exec(cargoContent);
       const name = nameMatch ? nameMatch[1] : "Rust Project";
-      
-      const rawMetadata = await run("cargo metadata --format-version 1 --no-deps");
+
+      const rawMetadata = await run(
+        "cargo metadata --format-version 1 --no-deps",
+      );
       if (rawMetadata) {
         const json = JSON.parse(rawMetadata);
-        const packages: OutdatedPackage[] = (json.packages ?? []).flatMap((pkg: any) => 
-          (pkg.dependencies ?? []).map((dep: any) => ({
-            name: dep.name,
-            current: dep.req ?? "?",
-            latest: "?",
-            website: getPackageUrl("cargo", dep.name),
-          }))
+        const packages: OutdatedPackage[] = (json.packages ?? []).flatMap(
+          (pkg: any) =>
+            (pkg.dependencies ?? []).map((dep: any) => ({
+              name: dep.name,
+              current: dep.req ?? "?",
+              latest: "?",
+              website: getPackageUrl("cargo", dep.name),
+            })),
         );
         projects.push({
           name,

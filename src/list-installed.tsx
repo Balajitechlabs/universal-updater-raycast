@@ -1,31 +1,31 @@
 import {
-    AI,
-    Action,
-    ActionPanel,
-    Clipboard,
-    Color,
-    Detail,
-    Icon,
-    List,
-    environment,
-    getPreferenceValues,
-    openExtensionPreferences,
+  AI,
+  Action,
+  ActionPanel,
+  Clipboard,
+  Color,
+  Detail,
+  Icon,
+  List,
+  environment,
+  getPreferenceValues,
+  openExtensionPreferences,
 } from "@raycast/api";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
-    EcosystemId,
-    FnmVersion,
-    JavaJDK,
-    LocalProject,
-    OutdatedPackage,
-    checkFnmVersions,
-    checkJavaJDKs,
-    checkLocalProjects,
-    isEcosystemAvailable,
-    listInstalledPackages,
-    run,
-    uninstallPackage,
+  EcosystemId,
+  FnmVersion,
+  JavaJDK,
+  LocalProject,
+  OutdatedPackage,
+  checkFnmVersions,
+  checkJavaJDKs,
+  checkLocalProjects,
+  isEcosystemAvailable,
+  listInstalledPackages,
+  run,
+  uninstallPackage,
 } from "./ecosystems";
 import { mapWithLimit } from "./utils";
 
@@ -272,7 +272,10 @@ function FnmVersionList(
       navigationTitle="Node.js Versions (fnm)"
       searchBarPlaceholder="Filter versions..."
     >
-      <List.Section title="Installed Node.js Versions" subtitle={`${versions.length} versions`}>
+      <List.Section
+        title="Installed Node.js Versions"
+        subtitle={`${versions.length} versions`}
+      >
         {versions.map((v) => {
           const accessories: List.Item.Accessory[] = [];
           if (v.isActive) {
@@ -328,7 +331,11 @@ function FnmVersionList(
                           icon={Icon.Trash}
                           style={Action.Style.Destructive}
                           onAction={async () => {
-                            if (await confirmAlert({ title: `Uninstall Node ${v.version}?` })) {
+                            if (
+                              await confirmAlert({
+                                title: `Uninstall Node ${v.version}?`,
+                              })
+                            ) {
                               setIsLoading(true);
                               try {
                                 const toast = await showToast({
@@ -363,7 +370,11 @@ function FnmVersionList(
                     />
                   </ActionPanel.Section>
                   <ActionPanel.Section title="Navigation">
-                    <Action title="Back to Main List" icon={Icon.ArrowLeft} onAction={onBack} />
+                    <Action
+                      title="Back to Main List"
+                      icon={Icon.ArrowLeft}
+                      onAction={onBack}
+                    />
                     <Action
                       title="Refresh"
                       icon={Icon.RotateClockwise}
@@ -394,7 +405,10 @@ function JavaJDKList(
       navigationTitle="Java JDKs (Zulu / JVM)"
       searchBarPlaceholder="Filter JDKs..."
     >
-      <List.Section title="Installed Java Virtual Machines" subtitle={`${jdks.length} JDKs`}>
+      <List.Section
+        title="Installed Java Virtual Machines"
+        subtitle={`${jdks.length} JDKs`}
+      >
         {jdks.map((jdk) => {
           const accessories: List.Item.Accessory[] = [
             { text: jdk.arch, tooltip: `Architecture: ${jdk.arch}` },
@@ -417,7 +431,7 @@ function JavaJDKList(
                 <ActionPanel>
                   <ActionPanel.Section title="Path Management">
                     <Action
-                      title="Copy JAVA_HOME Path"
+                      title="Copy Java_home Path"
                       icon={Icon.Clipboard}
                       shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
                       onAction={async () => {
@@ -445,7 +459,11 @@ function JavaJDKList(
                     />
                   </ActionPanel.Section>
                   <ActionPanel.Section title="Navigation">
-                    <Action title="Back to Main List" icon={Icon.ArrowLeft} onAction={onBack} />
+                    <Action
+                      title="Back to Main List"
+                      icon={Icon.ArrowLeft}
+                      onAction={onBack}
+                    />
                   </ActionPanel.Section>
                 </ActionPanel>
               }
@@ -472,14 +490,19 @@ function LocalProjectPackageList(
       searchBarPlaceholder="Search dependencies..."
       isShowingDetail={Object.keys(aiDetails).length > 0}
     >
-      <List.Section title="Workspace Dependencies" subtitle={`${project.packages.length} dependencies`}>
+      <List.Section
+        title="Workspace Dependencies"
+        subtitle={`${project.packages.length} dependencies`}
+      >
         {project.packages.map((pkg) => (
           <List.Item
             key={pkg.name}
             title={pkg.name}
             subtitle={pkg.current}
             icon={project.type === "node" ? Icon.Box : Icon.Code}
-            accessories={pkg.website ? [{ icon: Icon.Globe, tooltip: pkg.website }] : []}
+            accessories={
+              pkg.website ? [{ icon: Icon.Globe, tooltip: pkg.website }] : []
+            }
             detail={
               aiDetails[pkg.name] ? (
                 <List.Item.Detail
@@ -491,7 +514,10 @@ function LocalProjectPackageList(
               <ActionPanel>
                 <ActionPanel.Section title="Actions">
                   {pkg.website && (
-                    <Action.OpenInBrowser title="Open Official Website" url={pkg.website} />
+                    <Action.OpenInBrowser
+                      title="Open Official Website"
+                      url={pkg.website}
+                    />
                   )}
                   {environment.canAccess(AI) && (
                     <Action
@@ -509,7 +535,10 @@ function LocalProjectPackageList(
                           );
                           toast.style = Toast.Style.Success;
                           toast.title = "AI Response";
-                          setAiDetails((prev) => ({ ...prev, [pkg.name]: response }));
+                          setAiDetails((prev) => ({
+                            ...prev,
+                            [pkg.name]: response,
+                          }));
                         } catch {
                           toast.style = Toast.Style.Failure;
                           toast.title = "AI Failed";
@@ -527,7 +556,11 @@ function LocalProjectPackageList(
                   />
                 </ActionPanel.Section>
                 <ActionPanel.Section title="Navigation">
-                  <Action title="Back to Main List" icon={Icon.ArrowLeft} onAction={onBack} />
+                  <Action
+                    title="Back to Main List"
+                    icon={Icon.ArrowLeft}
+                    onAction={onBack}
+                  />
                 </ActionPanel.Section>
               </ActionPanel>
             }
@@ -574,7 +607,10 @@ export default function Command() {
   const [isFnmAvailable, setIsFnmAvailable] = useState(false);
   const [isJavaAvailable, setIsJavaAvailable] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedView, setSelectedView] = useState<{ type: "ecosystem" | "fnm" | "java" | "local"; id?: string } | null>(null);
+  const [selectedView, setSelectedView] = useState<{
+    type: "ecosystem" | "fnm" | "java" | "local";
+    id?: string;
+  } | null>(null);
 
   const refresh = useCallback(async () => {
     setIsLoading(true);
@@ -583,20 +619,25 @@ export default function Command() {
     try {
       await run("command -v fnm");
       fnmOk = true;
-    } catch {}
+    } catch {
+      // FNM not available
+    }
 
     let javaOk = false;
     try {
       await run("command -v java");
       javaOk = true;
-    } catch {}
+    } catch {
+      // Java not available
+    }
 
-    const [ecosystemResults, fnmResults, javaResults, localResults] = await Promise.all([
-      loadInstalledPackages(enabledEcosystems),
-      fnmOk ? checkFnmVersions() : Promise.resolve([]),
-      javaOk ? checkJavaJDKs() : Promise.resolve([]),
-      checkLocalProjects(),
-    ]);
+    const [ecosystemResults, fnmResults, javaResults, localResults] =
+      await Promise.all([
+        loadInstalledPackages(enabledEcosystems),
+        fnmOk ? checkFnmVersions() : Promise.resolve([]),
+        javaOk ? checkJavaJDKs() : Promise.resolve([]),
+        checkLocalProjects(),
+      ]);
 
     setEcosystems(ecosystemResults);
     setFnmVersions(fnmResults);
@@ -640,10 +681,7 @@ export default function Command() {
       );
     } else if (selectedView.type === "java") {
       return (
-        <JavaJDKList
-          jdks={javaJDKs}
-          onBack={() => setSelectedView(null)}
-        />
+        <JavaJDKList jdks={javaJDKs} onBack={() => setSelectedView(null)} />
       );
     } else if (selectedView.type === "local" && selectedView.id) {
       const selected = localProjects.find((p) => p.path === selectedView.id);
@@ -658,8 +696,13 @@ export default function Command() {
     }
   }
 
-  const activeFnmVersion = fnmVersions.find((v) => v.isActive)?.version ?? "N/A";
-  const zuluJdkCount = javaJDKs.filter((jdk) => jdk.vendor.toLowerCase().includes("azul") || jdk.name.toLowerCase().includes("zulu")).length;
+  const activeFnmVersion =
+    fnmVersions.find((v) => v.isActive)?.version ?? "N/A";
+  const zuluJdkCount = javaJDKs.filter(
+    (jdk) =>
+      jdk.vendor.toLowerCase().includes("azul") ||
+      jdk.name.toLowerCase().includes("zulu"),
+  ).length;
 
   return (
     <List
@@ -737,7 +780,7 @@ export default function Command() {
               actions={
                 <ActionPanel>
                   <Action
-                    title="View Installed JVMs"
+                    title="View Installed Jvms"
                     icon={Icon.Eye}
                     onAction={() => setSelectedView({ type: "java" })}
                   />
@@ -776,7 +819,9 @@ export default function Command() {
                   <Action
                     title="View Local Dependencies"
                     icon={Icon.Eye}
-                    onAction={() => setSelectedView({ type: "local", id: project.path })}
+                    onAction={() =>
+                      setSelectedView({ type: "local", id: project.path })
+                    }
                   />
                   <Action
                     title="Refresh"
@@ -823,7 +868,9 @@ export default function Command() {
                     <Action
                       title="View Details"
                       icon={Icon.Eye}
-                      onAction={() => setSelectedView({ type: "ecosystem", id: ecosystem.id })}
+                      onAction={() =>
+                        setSelectedView({ type: "ecosystem", id: ecosystem.id })
+                      }
                     />
                   )}
                   <Action
