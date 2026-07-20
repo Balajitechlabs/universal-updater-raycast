@@ -708,6 +708,13 @@ ${props.status.id} upgrade ${pkg.name}
                     title: `Upgrading ${pkg.name}…`,
                   });
                   try {
+                    const prefs = getPreferenceValues<Record<string, any>>();
+                    if (prefs.dryRunMode) {
+                      toast.style = Toast.Style.Success;
+                      toast.title = "Dry-run mode";
+                      toast.message = `Simulated: ${pkg.name} would be upgraded to ${pkg.latest}`;
+                      return;
+                    }
                     // Use ecosystem-specific single-package upgrade
                     await installPackage(def.id, pkg.name);
                     toast.style = Toast.Style.Success;
@@ -1480,7 +1487,14 @@ export default function Command() {
     });
 
     try {
-      await def.upgrader();
+      if (prefs.skipMajorVersions) {
+        const safePackages = excludeMajorUpdates(status.packages);
+        for (const pkg of safePackages) {
+          await installPackage(status.id, pkg.name);
+        }
+      } else {
+        await def.upgrader();
+      }
       toast.style = Toast.Style.Success;
       toast.title = `${status.name} upgraded!`;
       await refreshStatuses();
@@ -1545,7 +1559,14 @@ export default function Command() {
         });
 
         try {
-          await def.upgrader();
+          if (prefs.skipMajorVersions) {
+            const safePackages = excludeMajorUpdates(status.packages);
+            for (const pkg of safePackages) {
+              await installPackage(status.id, pkg.name);
+            }
+          } else {
+            await def.upgrader();
+          }
           toast.style = Toast.Style.Success;
           toast.title = `${status.name} upgraded`;
         } catch (error: unknown) {
@@ -1572,7 +1593,14 @@ export default function Command() {
         });
 
         try {
-          await def.upgrader();
+          if (prefs.skipMajorVersions) {
+            const safePackages = excludeMajorUpdates(status.packages);
+            for (const pkg of safePackages) {
+              await installPackage(status.id, pkg.name);
+            }
+          } else {
+            await def.upgrader();
+          }
           toast.style = Toast.Style.Success;
           toast.title = `${status.name} upgraded`;
         } catch (error: unknown) {
