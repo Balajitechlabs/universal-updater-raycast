@@ -81,6 +81,38 @@ Example format:
 }
 ```
 
+## Advanced Features
+
+### ⚙️ Ecosystem-Specific PATH Overrides
+If any package manager is installed in a custom directory (e.g. through specific version managers or standalone installer scripts), you can configure individual PATH directories for each manager in the extension preferences.
+To find the exact folder path to copy-paste, run these commands in your macOS terminal:
+* **Homebrew:** `dirname $(which brew)`
+* **npm:** `dirname $(which npm)`
+* **Yarn:** `dirname $(which yarn)`
+* **pnpm:** `dirname $(which pnpm)`
+* **Pip/Pip3:** `dirname $(which pip) || dirname $(which pip3)`
+* **Pipx:** `dirname $(which pipx)`
+* **Cargo:** `dirname $(which cargo)`
+* **Gem:** `dirname $(which gem)`
+* **Go:** `dirname $(which go)`
+* **Bun:** `dirname $(which bun)`
+* **Deno:** `dirname $(which deno)`
+* **Composer:** `dirname $(which composer)`
+* **mas CLI:** `dirname $(which mas)`
+
+### 📂 Local Workspace Auditing
+In addition to global packages, the `List Installed Packages` screen automatically scans your active development folder for project workspaces:
+* **Node.js/npm:** Scans `package.json` dependencies and devDependencies, parsing the actual installed version from the local `node_modules` folders as a fallback if CLI listings fail.
+* **Rust/Cargo:** Scans `Cargo.toml` and lockfiles to list local project dependencies.
+
+### 💻 Developer Runtimes & SDKs
+The extension goes beyond package managers to detect and manage your core language runtimes:
+* **Node.js (fnm):** Detects FNM (Fast Node Manager), lists installed Node versions, displays which one is active/default, and allows you to set default versions or uninstall runtimes directly.
+* **Java Virtual Machines (Zulu / JDK):** Automatically queries installed JDKs, highlighting Azul Zulu builds, and lets you copy the target `JAVA_HOME` folder path or export statement in one click.
+
+### ⚡ Dynamic FNM Session Resolution
+Because FNM generates a new temporary multishell session directory (e.g. `/fnm_multishells/.../bin`) each time a terminal is opened, standard background scripts cannot find `node`/`npm`. Universal Updater dynamically calls `fnm env` on every run, parsing and merging active FNM directories with command environments to prevent path resolution hangs.
+
 ## Safety
 
 - The extension asks before upgrades when confirmation is enabled in preferences.
