@@ -1,65 +1,65 @@
 import {
-  AI,
-  Action,
-  ActionPanel,
-  Alert,
-  Cache,
-  Clipboard,
-  Color,
-  Detail,
-  Form,
-  Icon,
-  List,
-  Toast,
-  confirmAlert,
-  environment,
-  getPreferenceValues,
-  openExtensionPreferences,
-  showHUD,
-  showToast,
+    AI,
+    Action,
+    ActionPanel,
+    Alert,
+    Cache,
+    Clipboard,
+    Color,
+    Detail,
+    Form,
+    Icon,
+    List,
+    Toast,
+    confirmAlert,
+    environment,
+    getPreferenceValues,
+    openExtensionPreferences,
+    showHUD,
+    showToast,
 } from "@raycast/api";
 import { execFileSync } from "node:child_process";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
-  EcosystemId,
-  EcosystemStatus,
-  OutdatedPackage,
-  addIgnoredPackage,
-  checkBrew,
-  checkBun,
-  checkCargo,
-  checkComposer,
-  checkDeno,
-  checkGem,
-  checkGo,
-  checkMas,
-  checkNpm,
-  checkPip,
-  checkPipx,
-  checkPnpm,
-  checkYarn,
-  getIgnoredPackages,
-  getPinnedPackages,
-  getVersionDiffType,
-  installPackage,
-  isEcosystemAvailable,
-  listInstalledPackages,
-  removeIgnoredPackage,
-  togglePinPackage,
-  upgradeBrew,
-  upgradeBun,
-  upgradeCargo,
-  upgradeComposer,
-  upgradeDeno,
-  upgradeGem,
-  upgradeGo,
-  upgradeMas,
-  upgradeNpm,
-  upgradePip,
-  upgradePipx,
-  upgradePnpm,
-  upgradeYarn,
+    EcosystemId,
+    EcosystemStatus,
+    OutdatedPackage,
+    addIgnoredPackage,
+    checkBrew,
+    checkBun,
+    checkCargo,
+    checkComposer,
+    checkDeno,
+    checkGem,
+    checkGo,
+    checkMas,
+    checkNpm,
+    checkPip,
+    checkPipx,
+    checkPnpm,
+    checkYarn,
+    getIgnoredPackages,
+    getPinnedPackages,
+    getVersionDiffType,
+    installPackage,
+    isEcosystemAvailable,
+    listInstalledPackages,
+    removeIgnoredPackage,
+    togglePinPackage,
+    upgradeBrew,
+    upgradeBun,
+    upgradeCargo,
+    upgradeComposer,
+    upgradeDeno,
+    upgradeGem,
+    upgradeGo,
+    upgradeMas,
+    upgradeNpm,
+    upgradePip,
+    upgradePipx,
+    upgradePnpm,
+    upgradeYarn,
 } from "./ecosystems";
 import { createBackup } from "./export-backups";
 import { mapWithLimit } from "./utils";
@@ -716,7 +716,9 @@ ${props.status.id} upgrade ${pkg.name}
                       return;
                     }
                     // Use ecosystem-specific single-package upgrade
-                    await installPackage(def.id, pkg.name);
+                    await installPackage(def.id, pkg.name, {
+                      version: pkg.latest,
+                    });
                     toast.style = Toast.Style.Success;
                     toast.title = `${pkg.name} upgraded to ${pkg.latest}`;
                     props.onRefresh();
@@ -1490,7 +1492,9 @@ export default function Command() {
       if (prefs.skipMajorVersions) {
         const safePackages = excludeMajorUpdates(status.packages);
         for (const pkg of safePackages) {
-          await installPackage(status.id, pkg.name);
+          await installPackage(status.id, pkg.name, {
+            version: pkg.latest,
+          });
         }
       } else {
         await def.upgrader();
@@ -1562,7 +1566,9 @@ export default function Command() {
           if (prefs.skipMajorVersions) {
             const safePackages = excludeMajorUpdates(status.packages);
             for (const pkg of safePackages) {
-              await installPackage(status.id, pkg.name);
+              await installPackage(status.id, pkg.name, {
+                version: pkg.latest,
+              });
             }
           } else {
             await def.upgrader();
@@ -1596,7 +1602,9 @@ export default function Command() {
           if (prefs.skipMajorVersions) {
             const safePackages = excludeMajorUpdates(status.packages);
             for (const pkg of safePackages) {
-              await installPackage(status.id, pkg.name);
+              await installPackage(status.id, pkg.name, {
+                version: pkg.latest,
+              });
             }
           } else {
             await def.upgrader();

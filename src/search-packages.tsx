@@ -1,30 +1,30 @@
 import {
-  AI,
-  Action,
-  ActionPanel,
-  Clipboard,
-  Color,
-  Detail,
-  Icon,
-  List,
-  Toast,
-  environment,
-  getPreferenceValues,
-  openExtensionPreferences,
-  popToRoot,
-  showToast,
+    AI,
+    Action,
+    ActionPanel,
+    Clipboard,
+    Color,
+    Detail,
+    Icon,
+    List,
+    Toast,
+    environment,
+    getPreferenceValues,
+    openExtensionPreferences,
+    popToRoot,
+    showToast,
 } from "@raycast/api";
 import fetch from "node-fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
-  EcosystemId,
-  getChangelogUrl,
-  getPackageUrl,
-  installPackage,
-  isEcosystemAvailable,
-  listInstalledPackages,
-  run,
+    EcosystemId,
+    getChangelogUrl,
+    getPackageUrl,
+    installPackage,
+    isEcosystemAvailable,
+    listInstalledPackages,
+    run,
 } from "./ecosystems";
 
 const ECOSYSTEM_NAMES: Record<EcosystemId, string> = {
@@ -469,8 +469,9 @@ export default function Command() {
               if (!safeSearch) {
                 items = [];
               } else {
+                const quotedSearch = `'${safeSearch.replaceAll("'", "'\\''")}'`;
                 const stdout = await run(
-                  `brew search ${safeSearch} | head -n 20`,
+                  `brew search ${quotedSearch} | head -n 20`,
                 );
                 const lines = stdout
                   .split("\n")
