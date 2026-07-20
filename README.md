@@ -15,8 +15,6 @@ Portfolio: https://portfolio.balajitechlab.com
 <img src="metadata/universal-updater-3.png" width="800" alt="Universal Updater Screenshot 3">
 <img src="metadata/universal-updater-4.png" width="800" alt="Universal Updater Screenshot 4">
 <img src="metadata/universal-updater-5.png" width="800" alt="Universal Updater Screenshot 5">
-<img src="metadata/universal-updater-6.png" width="800" alt="Universal Updater Screenshot 6">
-<img src="metadata/universal-updater-7.png" width="800" alt="Universal Updater Screenshot 7">
 
 ## Highlights
 
